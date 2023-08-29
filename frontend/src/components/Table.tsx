@@ -10,18 +10,15 @@ import Pagination from "./Pagination";
 const Table: FC = (props: any) => {
   const [volunteers, setVolunteers] = useState<User[]>([emptyUser]);
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
-  const [editVolunteer, setEditVolunteer] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [key, setKey] = useState<number>(1);
 
   const totalPages = Math.ceil(volunteers.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-
-  const goToPage = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
 
   useEffect((): any => {
     fetchVolunteers();
@@ -59,6 +56,26 @@ const Table: FC = (props: any) => {
           prevState.push(response.data);
           return prevState;
         });
+      setKey((prevState) => prevState + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const editVolunteer = async (data: User) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/bog/users/${data.id}`,
+        data
+      );
+      setVolunteers((prevState) => {
+        const index = prevState.findIndex(
+          (volunteer) => volunteer.id === response.data.id
+        );
+        prevState[index] = response.data;
+        return prevState;
+      });
+      setKey((prevState) => prevState + 1);
     } catch (error) {
       console.log(error);
     }
@@ -66,19 +83,13 @@ const Table: FC = (props: any) => {
 
   const addVolunteerHandler = () => {
     setShowSidebar(true);
-    setEditVolunteer(null);
+    setSelectedUser(null);
   };
 
   const editVolunteerHandler = (user: User) => {
     setShowSidebar(true);
-    setEditVolunteer(user);
+    setSelectedUser(user);
   };
-
-  const nextPage = () => {
-    setCurrentPage((prevState) => prevState + 1);
-  };
-
-  const prevPage = () => {};
 
   const toPage = (page: number) => {
     if (page > 0 && page <= totalPages) setCurrentPage(page);
@@ -102,45 +113,30 @@ const Table: FC = (props: any) => {
           </button>
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md">
-          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-            <thead className="bg-gray-50">
+          <table className="w-full border-collapse bg-white text-left text-sm text-gray-200">
+            <thead className="bg-gray-50 dark:bg-gray-900 text-white">
               <tr>
                 {windowWidth > windowBreakpoint ? (
                   <>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
+                    <th scope="col" className="px-6 py-4 font-medium">
                       Name
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
+                    <th scope="col" className="px-6 py-4 font-medium">
                       Hero Project
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
+                    <th scope="col" className="px-6 py-4 font-medium">
                       Rating
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    ></th>
+                    <th scope="col" className="px-6 py-4 font-medium"></th>
                   </>
                 ) : (
-                  <th
-                    scope="col"
-                    className="px-6 py-4 font-medium text-gray-900"
-                  >
+                  <th scope="col" className="px-6 py-4 font-medium">
                     Volunteer Information
                   </th>
                 )}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 border-t border-gray-100">
+            <tbody className="divide-y dark:bg-gray-700 divide-gray-100 border-t border-gray-100">
               {volunteers.slice(startIndex, endIndex).map((volunteer) => (
                 <TableRow
                   key={volunteer.id}
@@ -158,6 +154,7 @@ const Table: FC = (props: any) => {
         showSidebar={showSidebar}
         setShowSidebar={setShowSidebar}
         addVolunteer={addVolunteer}
+        selectedUser={selectedUser}
         editVolunteer={editVolunteer}
       />
     </div>

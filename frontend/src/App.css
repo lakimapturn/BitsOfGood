@@ -7,6 +7,14 @@ textarea:focus {
   border-width: thin;
 }
 
+/* .background {
+  height: 150vh;
+  width: 100%;
+  position: absolute;
+  z-index: -10;
+  margin-top: 20vh;
+} */
+
 .bg-green {
   background-color: #38a169;
 }

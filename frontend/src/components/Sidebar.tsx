@@ -9,13 +9,15 @@ interface Props {
   showSidebar: boolean;
   setShowSidebar: Dispatch<SetStateAction<boolean>>;
   addVolunteer: Function;
-  editVolunteer: User | null;
+  selectedUser: User | null;
+  editVolunteer: Function;
 }
 
 const Sidebar = ({
   showSidebar,
   setShowSidebar,
   addVolunteer,
+  selectedUser,
   editVolunteer,
 }: Props) => {
   return (
@@ -67,17 +69,19 @@ const Sidebar = ({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white pb-4 shadow-xl">
+                  <div className="flex bg-gray-900 text-white h-full flex-col overflow-y-scroll bg-white pb-4 shadow-xl">
                     <div className="px-4 sm:px-6 pt-6 pb-4">
-                      <Dialog.Title className="text-base font-semibold text-3xl text-gray-900">
-                        {editVolunteer ? "Edit" : "Add"} Volunteer
+                      <Dialog.Title className="text-base font-semibold text-3xl">
+                        {selectedUser ? "Edit" : "Add"} Volunteer
                       </Dialog.Title>
                     </div>
                     <hr />
                     <div className="relative flex-1 px-4 sm:px-6">
                       <AddEditUser
                         editVolunteer={editVolunteer}
+                        selectedUser={selectedUser}
                         addVolunteer={addVolunteer}
+                        closeSidebar={() => setShowSidebar(false)}
                       />
                     </div>
                   </div>

@@ -45,9 +45,15 @@ app.delete("/api/bog/users/:id", (req, res) => {
 });
 
 app.put("/api/bog/users/:id", (req, res) => {
-  const user = database.filter((user) => user.id === req.params.id)[0];
+  let user = database.filter((user) => user.id === req.params.id)[0];
   user = { ...req.body, id: user.id };
-  res.json(user).status(202);
+  const index = database.findIndex((u) => u.id == user.id);
+  if (index === -1) {
+    res.json({}).status(400);
+  } else {
+    database[index] = user;
+    res.json(user).status(202);
+  }
 });
 
 // Start the server

@@ -33,28 +33,30 @@ const TableRow = ({
   return (
     <>
       {windowWidth > windowBreakpoint ? (
-        <tr className="hover:bg-gray-50">
+        <tr>
           <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
-            <div className="relative h-10 w-10">
+            <div className="relative h-16 w-16">
               <img
                 className="h-full w-full rounded-full object-cover object-center"
                 src={volunteer.avatar}
                 alt=""
               />
               <span
-                className={`absolute right-0 bottom-0 h-2 w-2 rounded-full bg-${
+                className={`absolute right-0 bottom-0 h-2 w-2 m-1 rounded-full bg-${
                   volunteer.status ? "green" : "red"
                 } ring ring-white`}
               ></span>
             </div>
             <div className="text-sm">
-              <div className="font-medium text-gray-700">{volunteer.name}</div>
+              <div className="font-medium text-white">{volunteer.name}</div>
               <div className="text-gray-400">{volunteer.email}</div>
               <div className="text-gray-400">{volunteer.phone}</div>
             </div>
           </th>
           <td className="px-6 py-4">{volunteer.hero_project}</td>
-          <td className="px-6 py-4 flex">{ratingStars(volunteer.rating)}</td>
+          <td className="px-6 py-4">
+            <div className="flex">{ratingStars(volunteer.rating)}</div>
+          </td>
           <td className="px-6 py-4">
             <div className="flex justify-end gap-4">
               <button
@@ -102,7 +104,7 @@ const TableRow = ({
         </tr>
       ) : (
         <tr>
-          <div className="max-w-lg mx-auto mb-10 bg-white rounded-lg shadow-md p-5">
+          <div className="max-w-lg mx-auto rounded-lg p-5">
             <div className="relative flex m-auto h-20 w-20">
               <img
                 className="h-full w-full rounded-full object-cover object-center"
@@ -115,15 +117,15 @@ const TableRow = ({
                 } ring ring-white`}
               ></span>
             </div>
-            <h2 className="text-center text-xl font-semibold mt-3">
+            <h2 className="text-center dark:text-white text-xl font-semibold mt-3">
               {volunteer.name}
             </h2>
-            <p className="text-center text-gray-600 mt-1">{volunteer.email}</p>
-            <p className="text-center text-gray-600 mt-1">{volunteer.phone}</p>
+            <p className="text-center text-gray-400 mt-1">{volunteer.email}</p>
+            <p className="text-center text-gray-400 mt-1">{volunteer.phone}</p>
             <div className="flex justify-center m-4">
               {ratingStars(volunteer.rating)}
             </div>
-            <p className="text-center text-gray-600 mt-2">
+            <p className="text-center text-gray-400 mt-2">
               Hero Project: {volunteer.hero_project}
             </p>
             <hr className="my-3" />

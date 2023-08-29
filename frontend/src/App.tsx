@@ -7,6 +7,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Header />
+      <div className="background bg-gray-900"></div>
       <Table />
     </div>
   );
