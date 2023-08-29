@@ -1,11 +1,15 @@
-import './App.css';
+import "./App.css";
 
-function App() {
+import Header from "./components/Header";
+import Table from "./components/Table";
+
+const App: React.FC = () => {
   return (
     <div className="App">
-      <p>Hello World!</p>
+      <Header />
+      <Table />
     </div>
   );
-}
+};
 
 export default App;

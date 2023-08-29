@@ -1,3 +1,30 @@
-.App {
-  text-align: center;
+input:focus,
+textarea:focus {
+  outline-width: 0;
+}
+
+.volunteers-table {
+  border-width: thin;
+}
+
+.bg-green {
+  background-color: #38a169;
+}
+
+.bg-red {
+  background-color: #e53e3e;
+}
+
+.table-row {
+  transition: 0.25s all ease-in-out;
+  -webkit-transition: 0.25s all ease-in-out;
+  position: relative;
+  display: flex !important;
+  scale: 0.98;
+}
+
+.hoverable:hover {
+  transform: scale(1.02);
+  -webkit-transform: scale(1.02);
+  cursor: pointer;
 }
