@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { BsStarFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 import User from "../../models/User";
 import { windowBreakpoint } from "../../utils/constants";
@@ -17,6 +17,8 @@ const TableRow = ({
   deleteVolunteerHandler,
   windowWidth,
 }: Props) => {
+  const navigate = useNavigate();
+
   const ratingStars = (rating: string) => {
     if (rating === "") return <></>;
 
@@ -30,10 +32,14 @@ const TableRow = ({
     );
   };
 
+  const showUserDetails = () => {
+    navigate(`volunteer/${volunteer.id}`);
+  };
+
   return (
     <>
       {windowWidth > windowBreakpoint ? (
-        <tr>
+        <tr className="hoverable" onClick={showUserDetails}>
           <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
             <div className="relative h-16 w-16">
               <img

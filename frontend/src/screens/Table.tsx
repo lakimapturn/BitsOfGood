@@ -2,10 +2,10 @@ import { useEffect, useState, FC } from "react";
 import axios from "axios";
 
 import User, { NewUser, emptyUser } from "../models/User";
-import Sidebar from "./Sidebar";
-import TableRow from "./TableRow/TableRow";
+import Sidebar from "../components/Sidebar";
+import TableRow from "../components/TableRow/TableRow";
 import { itemsPerPage, windowBreakpoint } from "../utils/constants";
-import Pagination from "./Pagination";
+import Pagination from "../components/Pagination";
 import { BsPlusLg } from "react-icons/bs";
 
 const Table: FC = (props: any) => {
@@ -23,7 +23,12 @@ const Table: FC = (props: any) => {
 
   useEffect((): any => {
     fetchVolunteers();
-    window.addEventListener("resize", () => setWindowWidth(window.innerWidth));
+    const updateWindowWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", updateWindowWidth);
+
+    return window.removeEventListener("resize", updateWindowWidth);
   }, [props]);
 
   const fetchVolunteers = async () => {
