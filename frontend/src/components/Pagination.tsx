@@ -45,14 +45,14 @@ const Pagination: React.FC<Props> = ({ totalPages, toPage, currentPage }) => {
     );
   };
   return (
-    <div>
+    <div className="justify-center flex">
       <nav
         className="isolate inline-flex -space-x-px rounded-md shadow-sm"
         aria-label="Pagination"
       >
         <button
           onClick={() => toPage(currentPage - 1)}
-          className="relative inline-flex items-center bg-gray-900 rounded-l-md px-2 py-2 text-gray-400 ring-gray-700 ring-1"
+          className="relative inline-flex items-center bg-gray-900 rounded-l-md px-2 py-2 text-gray-400"
           disabled={currentPage === 1}
         >
           <span className="sr-only">Previous</span>
@@ -65,7 +65,7 @@ const Pagination: React.FC<Props> = ({ totalPages, toPage, currentPage }) => {
         {showPageNumbers()}
         <button
           onClick={() => toPage(currentPage + 1)}
-          className="relative inline-flex items-center bg-gray-900 rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-700"
+          className="relative inline-flex items-center bg-gray-900 rounded-r-md px-2 py-2 text-gray-400"
           disabled={currentPage === totalPages}
         >
           <span className="sr-only">Next</span>

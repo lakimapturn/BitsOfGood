@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import TableRow from "./TableRow/TableRow";
 import { itemsPerPage, windowBreakpoint } from "../utils/constants";
 import Pagination from "./Pagination";
+import { BsPlusLg } from "react-icons/bs";
 
 const Table: FC = (props: any) => {
   const [volunteers, setVolunteers] = useState<User[]>([emptyUser]);
@@ -97,22 +98,24 @@ const Table: FC = (props: any) => {
 
   return (
     <div className="p-8">
-      <Pagination
-        totalPages={totalPages}
-        toPage={(page: number) => toPage(page)}
-        currentPage={currentPage}
-      />
       <div className="m-5">
-        <div className="pb-4 flex justify-content-end">
-          <button
-            className="group relative h-12 w-36 overflow-hidden rounded-2xl bg-green-500 text-md text-white"
-            onClick={addVolunteerHandler}
-          >
-            Add Volunteer
-            <div className="absolute inset-0 h-full w-full scale-0 rounded-2xl transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
-          </button>
-        </div>
-        <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md">
+        <div className="overflow-hidden bg-gray-900 rounded-lg border border-gray-200 shadow-md">
+          <div className="table-actions">
+            <Pagination
+              totalPages={totalPages}
+              toPage={(page: number) => toPage(page)}
+              currentPage={currentPage}
+            />
+            <div className="justify-end">
+              <button
+                className="group relative p-2 overflow-hidden rounded-lg bg-green-500 text-md text-white"
+                onClick={addVolunteerHandler}
+              >
+                <BsPlusLg color="white" className="h-6 w-6" />
+                <div className="absolute inset-0 h-full w-full scale-0 rounded-lg transition-all duration-300 group-hover:scale-100 group-hover:bg-white/30"></div>
+              </button>
+            </div>
+          </div>
           <table className="w-full border-collapse bg-white text-left text-sm text-gray-200">
             <thead className="bg-gray-50 dark:bg-gray-900 text-white">
               <tr>

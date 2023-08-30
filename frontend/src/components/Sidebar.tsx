@@ -69,7 +69,7 @@ const Sidebar = ({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="flex bg-gray-900 text-white h-full flex-col overflow-y-scroll bg-white pb-4 shadow-xl">
+                  <div className="flex bg-gray-900 text-white h-full flex-col overflow-y-scroll bg-gray-900 pb-4 shadow-xl">
                     <div className="px-4 sm:px-6 pt-6 pb-4">
                       <Dialog.Title className="text-base font-semibold text-3xl">
                         {selectedUser ? "Edit" : "Add"} Volunteer
