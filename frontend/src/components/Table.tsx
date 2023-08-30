@@ -108,7 +108,7 @@ const Table: FC = (props: any) => {
             />
             <div className="justify-end">
               <button
-                className="group relative p-2 overflow-hidden rounded-lg bg-green-500 text-md text-white"
+                className="group relative p-2 overflow-hidden rounded-md bg-green-500 text-md text-white"
                 onClick={addVolunteerHandler}
               >
                 <BsPlusLg color="white" className="h-6 w-6" />
