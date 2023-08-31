@@ -48,3 +48,13 @@ textarea:focus {
   -webkit-transform: scale(1.02);
   cursor: pointer;
 }
+
+.avatar {
+  width: 50%;
+  height: 50%;
+}
+
+.star-col {
+  max-width: 8em;
+  justify-content: center;
+}

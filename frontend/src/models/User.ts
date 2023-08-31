@@ -1,4 +1,4 @@
-export interface User {
+interface User {
   name: string;
   avatar: string;
   hero_project: string;
@@ -8,6 +8,7 @@ export interface User {
   rating: string;
   status: boolean;
   id: string;
+  clicks: number;
 }
 
 export interface NewUser {
@@ -31,6 +32,7 @@ export const emptyUser: User = {
   rating: "",
   status: false,
   id: "",
+  clicks: 0,
 };
 
 export default User;

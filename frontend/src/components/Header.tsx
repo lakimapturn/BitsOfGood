@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 // import HahaHeroesLogo from "../../public/HAHA-Heroes-Logo.png";
 
 const Header: React.FC = ({}) => {
@@ -44,7 +44,7 @@ const Header: React.FC = ({}) => {
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul className="font-medium h-100 flex flex-col px-4 mt-5 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900">
               <li className="text-blue-700 bg-white pb-4 h-100 font-medium rounded-t-lg text-sm px-4 py-2 text-center mr-3 md:mr-0">
-                Volunteers List
+                <Link to="/"> Volunteers List</Link>
               </li>
             </ul>
           </div>

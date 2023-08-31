@@ -7,6 +7,7 @@ import TableRow from "../components/TableRow/TableRow";
 import { itemsPerPage, windowBreakpoint } from "../utils/constants";
 import Pagination from "../components/Pagination";
 import { BsPlusLg } from "react-icons/bs";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const Table: FC = (props: any) => {
   const [volunteers, setVolunteers] = useState<User[]>([emptyUser]);
@@ -27,14 +28,14 @@ const Table: FC = (props: any) => {
       setWindowWidth(window.innerWidth);
     };
     window.addEventListener("resize", updateWindowWidth);
-
-    return window.removeEventListener("resize", updateWindowWidth);
   }, [props]);
 
   const fetchVolunteers = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/bog/users");
-      setVolunteers(response.data);
+      setVolunteers(
+        response.data.map((volunteer: User) => ({ ...volunteer, clicks: 0 }))
+      );
     } catch (error) {
       console.log(error);
     }
@@ -101,11 +102,22 @@ const Table: FC = (props: any) => {
     if (page > 0 && page <= totalPages) setCurrentPage(page);
   };
 
+  const updateClicks = (volunteerId: string) => {
+    setVolunteers((prevState) =>
+      prevState.map((volunteer) => {
+        if (volunteer.id === volunteerId) {
+          return { ...volunteer, clicks: volunteer.clicks + 1 };
+        } else return volunteer;
+      })
+    );
+  };
+
   return (
     <div className="p-8">
       <div className="m-5">
         <div className="overflow-hidden bg-gray-900 rounded-lg border border-gray-200 shadow-md">
-          <div className="table-actions">
+          <div className="flex text-white justify-between">
+            <Breadcrumbs routes={null} />
             <Pagination
               totalPages={totalPages}
               toPage={(page: number) => toPage(page)}
@@ -132,7 +144,7 @@ const Table: FC = (props: any) => {
                     <th scope="col" className="px-6 py-4 font-medium">
                       Hero Project
                     </th>
-                    <th scope="col" className="px-6 py-4 font-medium">
+                    <th scope="col" className="px-6 py-4 max-w-sm font-medium">
                       Rating
                     </th>
                     <th scope="col" className="px-6 py-4 font-medium"></th>
@@ -152,6 +164,7 @@ const Table: FC = (props: any) => {
                   editVolunteerHandler={(v: any) => editVolunteerHandler(v)}
                   deleteVolunteerHandler={(v: string) => deleteVolunteers(v)}
                   windowWidth={windowWidth}
+                  updateClicks={(id: string) => updateClicks(id)}
                 />
               ))}
             </tbody>

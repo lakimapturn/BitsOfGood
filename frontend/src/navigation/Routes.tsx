@@ -1,7 +1,6 @@
 import {
   Route,
   createBrowserRouter,
-  createRoutesFromChildren,
   createRoutesFromElements,
 } from "react-router-dom";
 

@@ -1,14 +1,15 @@
-import { BsStarFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 import User from "../../models/User";
 import { windowBreakpoint } from "../../utils/constants";
+import { ratingStars } from "../../utils/functions";
 
 interface Props {
   volunteer: User;
   editVolunteerHandler: Function;
   deleteVolunteerHandler: Function;
   windowWidth: number;
+  updateClicks: Function;
 }
 
 const TableRow = ({
@@ -16,23 +17,12 @@ const TableRow = ({
   editVolunteerHandler,
   deleteVolunteerHandler,
   windowWidth,
+  updateClicks,
 }: Props) => {
   const navigate = useNavigate();
 
-  const ratingStars = (rating: string) => {
-    if (rating === "") return <></>;
-
-    const ratingNum: number = parseInt(rating);
-    return (
-      <>
-        {[...Array(ratingNum)].map((s) => (
-          <BsStarFill key={Math.random().toString()} />
-        ))}
-      </>
-    );
-  };
-
   const showUserDetails = () => {
+    updateClicks(volunteer.id);
     navigate(`volunteer/${volunteer.id}`);
   };
 
@@ -61,7 +51,9 @@ const TableRow = ({
           </th>
           <td className="px-6 py-4">{volunteer.hero_project}</td>
           <td className="px-6 py-4">
-            <div className="flex">{ratingStars(volunteer.rating)}</div>
+            <div className="star-col flex flex-wrap">
+              {ratingStars(volunteer.rating)}
+            </div>
           </td>
           <td className="px-6 py-4">
             <div className="flex justify-end gap-4">
@@ -180,55 +172,6 @@ const TableRow = ({
           </div>
         </tr>
       )}
-      {/* <li
-        onClick={() => editVolunteerHandler(volunteer)}
-        key={volunteer.id}
-        className="table-row justify-between gap-x-6 py-5 hoverable"
-      >
-        <div className="flex min-w-0 gap-x-4">
-          <div
-            className={`flex-none absolute rounded-full ${
-              volunteer.status ? "bg-emerald-500/20" : "bg-red-500/20"
-            } p-1`}
-          >
-            <div
-              className={`h-1.5 w-1.5 rounded-full ${
-                volunteer.status ? "bg-emerald-500" : "bg-red-500"
-              }`}
-            />
-          </div>
-          <img
-            className="h-16 w-16 flex-none rounded-full bg-gray-50"
-            src={volunteer.avatar}
-            alt=""
-          />
-
-          <div className="min-w-0 flex-auto">
-            <p className="text-sm font-semibold leading-6 text-gray-900">
-              {volunteer.name}
-            </p>
-            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-              {volunteer.email}
-            </p>
-            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-              {volunteer.phone}
-            </p>
-          </div>
-        </div>
-        <div className="flex-wrap mx-auto flex sm:items-center w-10">
-          {ratingStars(volunteer.rating)}
-        </div>
-        <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p className="text-sm leading-6 text-gray-900">
-            {volunteer.hero_project}
-          </p>
-          <button className="mt-1 text-xs leading-5 text-gray-500">
-            Actions
-          </button>
-          <div className="mt-1 flex items-center gap-x-1.5">
-          </div>
-        </div>
-      </li> */}
     </>
   );
 };
