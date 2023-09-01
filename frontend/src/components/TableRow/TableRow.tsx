@@ -31,26 +31,29 @@ const TableRow = ({
   return (
     <>
       {windowWidth > windowBreakpoint ? (
-        <tr className="hoverable" onClick={showUserDetails}>
-          <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
-            <div className="relative h-16 w-16">
-              <img
-                className="h-full w-full rounded-full object-cover object-center"
-                src={volunteer.avatar}
-                alt=""
-              />
-              <span
-                className={`absolute right-0 bottom-0 h-2 w-2 m-1 rounded-full bg-${
-                  volunteer.status ? "green" : "red"
-                } ring ring-white`}
-              ></span>
-            </div>
-            <div className="text-sm">
-              <div className="font-medium text-white">{volunteer.name}</div>
-              <div className="text-gray-400">{volunteer.email}</div>
-              <div className="text-gray-400">{volunteer.phone}</div>
-            </div>
-          </th>
+        <tr className="hoverable">
+          <div onClick={showUserDetails}>
+            <th className="flex gap-3 px-6 py-4 font-normal text-gray-900">
+              <div className="relative h-16 w-16">
+                <img
+                  className="h-full w-full rounded-full object-cover object-center"
+                  src={volunteer.avatar}
+                  alt=""
+                />
+                <span
+                  className={`absolute right-0 bottom-0 h-2 w-2 m-1 rounded-full bg-${
+                    volunteer.status ? "green" : "red"
+                  } ring ring-white`}
+                ></span>
+              </div>
+              <div className="text-sm">
+                <div className="font-medium text-white">{volunteer.name}</div>
+                <div className="text-gray-400">{volunteer.email}</div>
+                <div className="text-gray-400">{volunteer.phone}</div>
+              </div>
+            </th>
+          </div>
+
           <td className="px-6 py-4">{volunteer.hero_project}</td>
           <td className="px-6 py-4">
             <div className="star-col flex flex-wrap">
@@ -105,33 +108,39 @@ const TableRow = ({
       ) : (
         <tr>
           <div className="max-w-lg mx-auto rounded-lg p-5">
-            <div className="relative flex m-auto h-20 w-20">
-              <img
-                className="h-full w-full rounded-full object-cover object-center"
-                src={volunteer.avatar}
-                alt=""
-              />
-              <span
-                className={`absolute right-0 bottom-0 h-2.5 w-2.5 m-1.5 rounded-full bg-${
-                  volunteer.status ? "green" : "red"
-                } ring ring-white`}
-              ></span>
+            <div onClick={showUserDetails}>
+              <div className="relative flex m-auto h-20 w-20">
+                <img
+                  className="h-full w-full rounded-full object-cover object-center"
+                  src={volunteer.avatar}
+                  alt=""
+                />
+                <span
+                  className={`absolute right-0 bottom-0 h-2.5 w-2.5 m-1.5 rounded-full bg-${
+                    volunteer.status ? "green" : "red"
+                  } ring ring-white`}
+                ></span>
+              </div>
+              <h2 className="text-center dark:text-white text-xl font-semibold mt-3">
+                {volunteer.name}
+              </h2>
+              <p className="text-center text-gray-400 mt-1">
+                {volunteer.email}
+              </p>
+              <p className="text-center text-gray-400 mt-1">
+                {volunteer.phone}
+              </p>
+              <div className="flex justify-center m-4">
+                {ratingStars(volunteer.rating)}
+              </div>
+              <p className="text-center text-gray-400 mt-2">
+                Hero Project: {volunteer.hero_project}
+              </p>
             </div>
-            <h2 className="text-center dark:text-white text-xl font-semibold mt-3">
-              {volunteer.name}
-            </h2>
-            <p className="text-center text-gray-400 mt-1">{volunteer.email}</p>
-            <p className="text-center text-gray-400 mt-1">{volunteer.phone}</p>
-            <div className="flex justify-center m-4">
-              {ratingStars(volunteer.rating)}
-            </div>
-            <p className="text-center text-gray-400 mt-2">
-              Hero Project: {volunteer.hero_project}
-            </p>
             <hr className="my-3" />
             <div className="flex place-content-evenly">
               <button
-                x-data="{ tooltip: 'Edite' }"
+                x-data="{ tooltip: 'Edit' }"
                 onClick={() => editVolunteerHandler(volunteer)}
               >
                 <svg
