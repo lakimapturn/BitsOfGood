@@ -36,7 +36,7 @@ const VolunteerInfo: FC = (props) => {
   const fetchVolunteer = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:7200/api/bog/users/${params.id}`
+        `http://localhost:5000/api/bog/users/${params.id}`
       );
       setVolunteer({ ...response.data, clicks: 1 });
     } catch (error) {

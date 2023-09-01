@@ -53,7 +53,7 @@ We have provided a sample express API to allow you to retrive data from the back
 To retrive data about the list of volunteers you will need to populate your frontend with, you can call
 
 ```
-GET http://localhost:7200/api/bog/users
+GET http://localhost:5000/api/bog/users
 ```
 
 This endpoint will return a list of volunteers along with relevant information associated with each of them.
@@ -61,7 +61,7 @@ This endpoint will return a list of volunteers along with relevant information a
 To get the information for a specific volunteer via their id, you can call
 
 ```
-GET http://localhost:7200/api/bog/users/:id
+GET http://localhost:5000/api/bog/users/:id
 ```
 
 The schema for a single user looks like this:
