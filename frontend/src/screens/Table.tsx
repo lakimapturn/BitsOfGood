@@ -27,12 +27,15 @@ const Table: FC = (props: any) => {
     const updateWindowWidth = () => {
       setWindowWidth(window.innerWidth);
     };
+    if (!localStorage.getItem("clicks"))
+      localStorage.setItem("clicks", JSON.stringify({}));
+
     window.addEventListener("resize", updateWindowWidth);
   }, [props]);
 
   const fetchVolunteers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/bog/users");
+      const response = await axios.get("http://localhost:7200/api/bog/users");
       setVolunteers(
         response.data.map((volunteer: User) => ({ ...volunteer, clicks: 0 }))
       );
@@ -44,7 +47,7 @@ const Table: FC = (props: any) => {
   const deleteVolunteers = async (userId: string) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/bog/users/${userId}`
+        `http://localhost:7200/api/bog/users/${userId}`
       );
       if (response.status === 200) await fetchVolunteers();
     } catch (error) {
@@ -55,7 +58,7 @@ const Table: FC = (props: any) => {
   const addVolunteer = async (data: NewUser) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/bog/users`,
+        `http://localhost:7200/api/bog/users`,
         data
       );
       if (response.status === 200)
@@ -72,7 +75,7 @@ const Table: FC = (props: any) => {
   const editVolunteer = async (data: User) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/bog/users/${data.id}`,
+        `http://localhost:7200/api/bog/users/${data.id}`,
         data
       );
       setVolunteers((prevState) => {
@@ -102,14 +105,14 @@ const Table: FC = (props: any) => {
     if (page > 0 && page <= totalPages) setCurrentPage(page);
   };
 
-  const updateClicks = (volunteerId: string) => {
-    setVolunteers((prevState) =>
-      prevState.map((volunteer) => {
-        if (volunteer.id === volunteerId) {
-          return { ...volunteer, clicks: volunteer.clicks + 1 };
-        } else return volunteer;
-      })
-    );
+  const updateClicks = async (volunteerId: string) => {
+    const storedObject = localStorage.getItem("clicks");
+    const parsedObject = JSON.parse(storedObject || "") as {
+      [key: string]: number;
+    };
+    if (volunteerId in parsedObject) parsedObject[volunteerId] += 1;
+    else parsedObject[volunteerId] = 1;
+    localStorage.setItem("clicks", JSON.stringify(parsedObject));
   };
 
   return (

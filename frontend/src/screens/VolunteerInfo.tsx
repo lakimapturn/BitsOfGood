@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 
 import User, { emptyUser } from "../models/User";
@@ -9,8 +9,14 @@ import Breadcrumbs from "../components/Breadcrumbs";
 
 const VolunteerInfo: FC = (props) => {
   const params = useParams();
+  const { state } = useLocation();
 
-  const [volunteer, setVolunteer] = useState<User>(emptyUser);
+  const [volunteer, setVolunteer] = useState<User>(state.volunteer);
+  const storedObject = localStorage.getItem("clicks");
+  const parsedObject = JSON.parse(storedObject || "") as {
+    [key: string]: number;
+  };
+  const clicks = parsedObject[volunteer.id];
 
   const routes: Route[] = [
     {
@@ -20,30 +26,33 @@ const VolunteerInfo: FC = (props) => {
   ];
 
   useEffect(() => {
-    fetchVolunteer();
+    if (!state) {
+      fetchVolunteer();
+    } else {
+      setVolunteer(state.volunteer);
+    }
   }, [props]);
 
   const fetchVolunteer = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/bog/users/${params.id}`
+        `http://localhost:7200/api/bog/users/${params.id}`
       );
-      console.log(response);
-      setVolunteer(response.data);
+      setVolunteer({ ...response.data, clicks: 1 });
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="flex items-center py-16 px-10 overflow-hidden relative">
+    <div className="flex itbs-center py-16 px-10 overflow-hidden relative">
       <div className="w-full max-w-6xl rounded bg-gray-900 shadow-xl m-auto p-2 lg:p-4 text-white relative md:text-left">
         <div className="flex">
           <Breadcrumbs routes={routes} />
         </div>
         <hr />
         <div className="p-8 lg:p-16 mx-auto">
-          <div className="md:flex items-center -mx-10">
+          <div className="md:flex itbs-center -mx-10">
             <div className="w-full md:w-1/2 px-10 mb-10 md:mb-0">
               <div className="relative">
                 <img
@@ -60,13 +69,21 @@ const VolunteerInfo: FC = (props) => {
                   {volunteer.name}
                 </h1>
                 <hr className="mb-5" />
-                <p className="text-sm">Email: {volunteer.email}</p>
-                <p className="text-sm">Phone: {volunteer.phone}</p>
                 <p className="text-sm">
-                  Hero Project: {volunteer.hero_project}
+                  <b>Email:</b> {volunteer.email}
                 </p>
-                <p className="text-sm">Notes: {volunteer.notes}</p>
-                <p className="text-sm">Times Clicked: {volunteer.clicks}</p>
+                <p className="text-sm">
+                  <b>Phone:</b> {volunteer.phone}
+                </p>
+                <p className="text-sm">
+                  <b>Hero Project:</b> {volunteer.hero_project}
+                </p>
+                <p className="text-sm">
+                  <b>Notes:</b> {volunteer.notes}
+                </p>
+                <p className="text-sm">
+                  <b>Times Clicked:</b> {clicks}
+                </p>
               </div>
               <div className="flex align-bottom mr-5">
                 {ratingStars(volunteer.rating, 40)}

@@ -21,9 +21,11 @@ const TableRow = ({
 }: Props) => {
   const navigate = useNavigate();
 
-  const showUserDetails = () => {
-    updateClicks(volunteer.id);
-    navigate(`volunteer/${volunteer.id}`);
+  const showUserDetails = async () => {
+    await updateClicks(volunteer.id);
+    navigate(`volunteer/${volunteer.id}`, {
+      state: { volunteer: volunteer },
+    });
   };
 
   return (
